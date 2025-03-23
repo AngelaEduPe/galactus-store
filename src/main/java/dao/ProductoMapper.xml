@@ -23,7 +23,7 @@
  		<result column="imagen_url" property="imagenUrl"/>
  	</resultMap>
  
- 	<select id="listarProductosPorIdSubcategoria" parameterType="int" resultMap="ProductoMap">
+ 	<select id="listarProductosPorParametros" parameterType="map" resultMap="ProductoMap">
  		SELECT
 	 		(
 				SELECT pi.imagen_url 
@@ -32,11 +32,44 @@
 				ORDER BY pi.fecha_creacion ASC
 				LIMIT 1
 			) imagen_url, 
-			p.id_producto, p.id_marca, p.id_subcategoria, p.id_proveedor, p.codigo_interno,
+			p.id_producto, p.id_marca,m.nombre AS marca_nombre, p.id_subcategoria, 
+			p.id_proveedor, pr.nombres AS proveedor_nombre, p.codigo_interno,
 	 		p.codigo_externo, p.nombre, p.descripcion, p.modelo, p.tiempo_garantia_meses,
 	 		p.precio, p.stock, p.fecha_compra, p.fecha_creacion
  		FROM productos p
- 		WHERE p.estado_auditoria = '1' and p.id_subcategoria = #{idSubcategoria}
+ 		LEFT JOIN marcas m ON m.id_marca = p.id_marca
+    	LEFT JOIN proveedores pr ON pr.id_proveedor = p.id_proveedor
+ 		WHERE p.estado_auditoria = '1'
+ 		<if 
+ 		test="idSubcategoria != null"> and p.id_subcategoria = #{idSubcategoria}
+ 		</if>
+	    <if 
+	    test="idProducto != null"> and p.id_producto = #{idProducto}
+	    </if>
+ 		
  	</select>
+ 	
+ 	<select id="listarImagenesPorProducto" parameterType="int" resultType="string">
+        SELECT imagen_url
+        FROM producto_imagenes
+        WHERE estado_auditoria = '1' AND id_producto = #{idProducto}
+        ORDER BY fecha_creacion ASC
+    </select>
+ 	
+ 	
+ 	<select id="obtenerNombreMarca" resultType="string">
+    SELECT nombre FROM marcas WHERE id_marca = #{idMarca}
+    </select>
+
+
+	<select id="obtenerNombreProveedor" resultType="string">
+    SELECT CONCAT(nombres, ' ', apellido_paterno, ' ', apellido_materno) AS nombre_completo
+    FROM proveedores
+    WHERE id_proveedor = #{idProveedor}
+	</select>
+
+
+
+ 	
  	
  </mapper>

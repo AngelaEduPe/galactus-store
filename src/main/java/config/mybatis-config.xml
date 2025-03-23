@@ -12,7 +12,7 @@
                 <property name="driver" value="org.postgresql.Driver"/>
                 <property name="url" value="jdbc:postgresql://localhost/BD_GALACTUS_STORE"/>
                 <property name="username" value="postgres"/>
-                <property name="password" value="root"/>
+                <property name="password" value="admin"/>
             </dataSource>
         </environment>
     </environments>
