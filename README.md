@@ -2,12 +2,9 @@
 App creada con el grupo ed lenguaje de programacion java web sise
 
 ### Integrantes
-- Diego Baes
-- Juan Marquina
+- Angela Vergara Tejada
 
-### Alcance - Explicacion del Proyecto
-asdasd
-
-### Diseño de la BD
+link:
+https://youtu.be/p0YtgDWXBF8
 
 
